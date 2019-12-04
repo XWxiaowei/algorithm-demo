@@ -2,9 +2,9 @@ package queue09;
 
 /**
  * @author xiang.wei
- * @date 2019/12/4 19:48
+ * @date 2019/12/4 21:09
  */
-public class ArrayQueue {
+public class ArrayQueue2 {
     /**
      * 数组：items,数组大小：n
      */
@@ -21,7 +21,7 @@ public class ArrayQueue {
      *
      * @param capacity
      */
-    public ArrayQueue(int capacity) {
+    public ArrayQueue2(int capacity) {
         items = new String[capacity];
         n = capacity;
     }
@@ -35,7 +35,17 @@ public class ArrayQueue {
     public boolean enqueue(String item) {
         //如果tail==n 表示队列已满了
         if (tail == n) {
-            return false;
+           //tail==n&&head==0，表示整个队列都占满了
+            if (head == 0) {
+                return false;
+            }
+            //数据搬移
+            for (int i=head;i<tail;++i) {
+                items[i - head] = items[i];
+            }
+            //搬迁完之后重新更新head和tail
+            tail -= head;
+            head = 0;
         }
         items[tail] = item;
         ++tail;
@@ -59,7 +69,7 @@ public class ArrayQueue {
     }
 
     public static void main(String[] args) {
-        ArrayQueue arrayQueue = new ArrayQueue(10);
+        ArrayQueue2 arrayQueue = new ArrayQueue2(10);
         for (int i = 0; i < 10; i++) {
             arrayQueue.enqueue("item" + i);
             System.out.println("item" + i+"入队");
